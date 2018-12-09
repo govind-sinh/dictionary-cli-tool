@@ -25,16 +25,28 @@ program
   .command('getSynonyms <word>')
   .alias('syn')
   .description('Know Word synonyms from Oxford dictionary.')
-  .action((userWord) => {
-    console.log(colors.info(userWord));
+  .action(async(userWord) => {
+    try{
+      const antonyms = await getWordDefinition(userWord,'synonyms');
+      antonyms[0] = '---> '+ antonyms[0]; 
+      logOutputs('Antonyms', userWord, antonyms.join('\n---> '));
+    } catch(err) {
+      logErrors(err);
+    }
   });
 
 program
   .command('getAntonyms <word>')
   .alias('ant')
   .description('Know Word antonyms from Oxford dictionary.')
-  .action((userWord) => {
-    console.log(colors.info(userWord));
+  .action(async(userWord) => {
+    try{
+      const antonyms = await getWordDefinition(userWord,'antonyms');
+      antonyms[0] = '---> '+ antonyms[0]; 
+      logOutputs('Antonyms', userWord, antonyms.join('\n---> '));
+    } catch(err) {
+      logErrors(err);
+    }
   });
 
 program

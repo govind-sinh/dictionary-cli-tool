@@ -12,7 +12,14 @@ const getWordDefinition = (word,filter) => {
                     return obj.lexicalEntries.map(lexicalEntry => {
                         return lexicalEntry.entries.map(entry => {
                             return entry.senses.map(sense => {
-                                return sense.definitions;
+                                if (filter === 'definitions'){
+                                    return sense[filter];
+                                }
+                                else if(filter === 'antonyms' || filter === 'synonyms') {
+                                    return sense[filter].map(antonym => {
+                                        return antonym.text;
+                                    });
+                                }
                             })
                         })
                     })
