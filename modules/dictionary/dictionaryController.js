@@ -4,7 +4,7 @@ const getWordDefinition = (word,filter) => {
     const _word = word.trim().toLowerCase();
     return new Promise((resolve,reject) => {
         const apiData = {
-            url: `/entries/en/${word.toLowerCase()}/${filter}`,
+            url: `/entries/en/${_word}/${filter}`,
         };
         utils.callApi(apiData).then(result => {
             const definitions = result.results
