@@ -1,16 +1,7 @@
 const program = require('commander');
-const colors = require('colors/safe');
-
-colors.setTheme({
-    input: 'grey',
-    verbose: 'cyan',
-    prompt: 'grey',
-    info: 'blue',
-    data: 'grey',
-    help: 'cyan',
-    warn: 'yellow',
-    error: 'red'
-});
+require('dotenv').config();
+const { getWordDefinition } = require('./modules/dictionary/dictionaryController');
+const { logOutputs, logErrors } = require('./helper/utils');
 
 program
   .version('1.0.0')
@@ -20,8 +11,14 @@ program
   .command('getDefinition <word>')
   .alias('def')
   .description('Know Word definition from Oxford dictionary.')
-  .action((userWord) => {
-      console.log(colors.info(userWord));
+  .action(async (userWord) => {
+    try{
+      const definitions = await getWordDefinition(userWord,'definitions');
+      definitions[0] = '---> '+ definitions[0]; 
+      logOutputs('Definitions', userWord, definitions.join('\n---> '));
+    } catch(err) {
+      logErrors(err);
+    }
   });
 
 program

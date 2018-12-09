@@ -26,5 +26,12 @@
   "bugs": {
     "url": "https://github.com/govind-sinh/dictionary-cli-tool/issues"
   },
-  "homepage": "https://github.com/govind-sinh/dictionary-cli-tool#readme"
+  "homepage": "https://github.com/govind-sinh/dictionary-cli-tool#readme",
+  "dependencies": {
+    "colors": "^1.3.2",
+    "commander": "^2.19.0",
+    "dotenv": "^6.2.0",
+    "request": "^2.88.0",
+    "request-promise": "^4.2.2"
+  }
 }
