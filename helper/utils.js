@@ -42,10 +42,30 @@ const logErrors = (err) => {
         console.log(colors.error(err));
     }
 }
+
+const getSingleArray = (multiDimensionalArray) => {
+    return helperLogic(multiDimensionalArray,[]);
+}
+
+const helperLogic = (multiDimensionalArray, oneDimensionalArray) => {
+    for(var i = 0; i < multiDimensionalArray.length; i++){
+        if(!multiDimensionalArray[i]){
+            return;
+        }
+        if(multiDimensionalArray[i] instanceof Array) {
+            oneDimensionalArray = helperLogic(multiDimensionalArray[i], oneDimensionalArray);
+        }else{
+            oneDimensionalArray.push(multiDimensionalArray[i]);
+        }
+    }
+    return oneDimensionalArray;
+};
+
 module.exports = {   
     callApi,
     logOutputs,
-    logErrors
+    logErrors,
+    getSingleArray
 };
 
 

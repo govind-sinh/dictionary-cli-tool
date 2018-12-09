@@ -10,21 +10,34 @@ const getWordDefinition = (word,filter) => {
             const definitions = result.results
                 .map(obj => {
                     return obj.lexicalEntries.map(lexicalEntry => {
-                        return lexicalEntry.entries.map(entry => {
-                            return entry.senses.map(sense => {
-                                if (filter === 'definitions'){
-                                    return sense[filter];
-                                }
-                                else if(filter === 'antonyms' || filter === 'synonyms') {
-                                    return sense[filter].map(antonym => {
-                                        return antonym.text;
-                                    });
-                                }
+                        if (filter === 'sentences') {
+                            return lexicalEntry.sentences.map(sentence => {
+                                // console.log(sentence.text)
+                                return sentence.text;
                             })
-                        })
+                        }
+                        else {
+                            return lexicalEntry.entries.map(entry => {
+                                return entry.senses.map(sense => {
+                                    if (filter === 'definitions'){
+                                        return sense[filter];
+                                    }
+                                    else if(filter === 'antonyms' || filter === 'synonyms') {
+                                        return sense[filter].map(antonym => {
+                                            return antonym.text;
+                                        });
+                                    }
+                                })
+                            })
+                        }
                     })
                 })
-            return resolve(definitions[0][0][0]);
+            if (filter === 'sentences') {
+                const sa = utils.getSingleArray(definitions);
+                return resolve(sa);        
+            }
+            const sa = utils.getSingleArray(definitions);
+            return resolve(sa);
         }).catch(err => {
             return reject(err);
         });

@@ -53,9 +53,14 @@ program
   .command('getExamples <word>')
   .alias('ex')
   .description('Get Word Example sentences from Oxford dictionary.')
-  .action(() => {
-    prompt(questions).then(answers =>
-      console.log(colors.info('Your word Definition:'+answers)));
+  .action(async (userWord) => {
+    try{
+      const sentences = await getWordDefinition(userWord,'sentences');
+      sentences[0] = '---> '+ sentences[0]; 
+      logOutputs('Sentences', userWord, sentences.join('\n---> '));
+    } catch(err) {
+      logErrors(err);
+    }
   });
 
 program
