@@ -1,7 +1,7 @@
 const program = require('commander');
 require('dotenv').config();
 const { getWordDefinition, getFullWordInfo } = require('./modules/dictionary/dictionaryController');
-const { logOutputs, logErrors, logFullWordInfo } = require('./helper/utils');
+const { logOutputs, logErrors, logFullWordInfo, getRandomWord, logWod } = require('./helper/utils');
 
 program
   .version('1.0.0')
@@ -77,10 +77,17 @@ program
   });
 
 program
-  .command('getWordOfTheDay <word>')
+  .command('getWordOfTheDay')
   .alias('wod')
   .description('Get Word of the day with full description from Oxford dictionary.')
-  .action((userWord) => {
-    console.log(colors.info(userWord));
+  .action(async(userWord) => {
+    try {
+      const word = getRandomWord();
+      const full = await getFullWordInfo(word);
+      logWod(word);
+      logFullWordInfo(full, word);
+    } catch(err) {
+      logErrors(err);
+    }
   });
 program.parse(process.argv);

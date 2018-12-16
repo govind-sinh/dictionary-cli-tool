@@ -13,6 +13,18 @@ colors.setTheme({
     error: 'red'
 });
 
+const words = [
+    'toxic', 'youthquake','post-truth',
+    'antifa','broflake','fragility','kompromat',
+    'newsjacking','milk','complicit','recuse','dotard',
+    'fidget','chamber','gender-fluid',
+    'cuffing-season','Insta','carve','case','cash','cashier','castle' ,
+    'ever','farther','gentleman','hardship','improve',
+    'jay','kid','laugh','marble','nearly',
+    'office','pass','queer','red-bird','smile',
+    'tongue','unhurt','velvet'
+];
+
 const baseUrl = 'https://od-api.oxforddictionaries.com:443/api/v1';
 
 const callApi = (apiData) => {
@@ -51,7 +63,10 @@ const logFullWordInfo = (full, word) => {
         console.log(colors.rainbow(`Antonyms > `), msg);
     }
     if (sentences) {
-        sentences[0] = '---> '+ sentences[0];
+        const firstEx = sentences.length > 0 ? '---> '+ sentences[0] : sentences[0];
+        if (firstEx) {
+            sentences[0] = firstEx;
+        }
         const msg = sentences.length > 0 ? colors.cyan(sentences.join('\n---> ')) : colors.warn('Not available.');        
         console.log(colors.rainbow(''.padStart(20,'-')));
         console.log(colors.magenta(`Examples`.padStart(15,' ')));
@@ -87,12 +102,25 @@ const helperLogic = (multiDimensionalArray, oneDimensionalArray) => {
     return oneDimensionalArray;
 };
 
+const generateRandomNumber = (maxVaue, minValue) => {
+    const random_number = Math.random() * (maxVaue - minValue) + minValue;
+    return Math.floor(random_number);
+}
+const getRandomWord = () => {
+    return words[generateRandomNumber(0,words.length)];
+}
+
+const logWod = (word) => {
+    console.log(colors.verbose('Word of the Day:'),colors.warn(word));
+}
 module.exports = {   
     callApi,
     logOutputs,
     logErrors,
     getSingleArray,
-    logFullWordInfo
+    logFullWordInfo,
+    getRandomWord,
+    logWod
 };
 
 
