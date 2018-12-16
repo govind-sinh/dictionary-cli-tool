@@ -14,8 +14,15 @@ program
   .action(async (userWord) => {
     try{
       const definitions = await getWordDefinition(userWord,'definitions');
-      definitions[0] = '---> '+ definitions[0]; 
-      logOutputs('Definitions', userWord, definitions.join('\n---> '));
+      const firstDef = definitions.length > 0 ? '---> '+ definitions[0] : definitions[0];
+      if (firstDef) {
+          definitions[0] = firstDef;
+          const msg = definitions.join('\n---> ');
+          logOutputs('Definitions', userWord, msg);
+      }
+      else {
+        logErrors(`Definitions for word '${userWord}' is not found.`);
+      }
     } catch(err) {
       logErrors(err);
     }
@@ -27,9 +34,16 @@ program
   .description('Know Word synonyms from Oxford dictionary.')
   .action(async(userWord) => {
     try{
-      const antonyms = await getWordDefinition(userWord,'synonyms');
-      antonyms[0] = '---> '+ antonyms[0]; 
-      logOutputs('Antonyms', userWord, antonyms.join('\n---> '));
+      const synonyms = await getWordDefinition(userWord,'synonyms');
+      const firstSyn = synonyms.length > 0 ? '---> '+ synonyms[0] : synonyms[0];
+      if (firstSyn) {
+          synonyms[0] = firstSyn;
+          const msg = synonyms.join('\n---> ');
+          logOutputs('Synonyms', userWord, msg);
+      }
+      else {
+        logErrors(`Synonyms for word '${userWord}' is not found.`);
+      } 
     } catch(err) {
       logErrors(err);
     }
@@ -42,8 +56,15 @@ program
   .action(async(userWord) => {
     try{
       const antonyms = await getWordDefinition(userWord,'antonyms');
-      antonyms[0] = '---> '+ antonyms[0]; 
-      logOutputs('Antonyms', userWord, antonyms.join('\n---> '));
+      const firstAnt = antonyms.length > 0 ? '---> '+ antonyms[0] : antonyms[0];
+      if (firstAnt) {
+          antonyms[0] = firstAnt;
+          const msg = antonyms.join('\n---> ');
+          logOutputs('Antonyms', userWord, msg);
+      }
+      else {
+        logErrors(`Antonyms for word '${userWord}' is not found.`);
+      }
     } catch(err) {
       logErrors(err);
     }
@@ -56,8 +77,15 @@ program
   .action(async (userWord) => {
     try{
       const sentences = await getWordDefinition(userWord,'sentences');
-      sentences[0] = '---> '+ sentences[0]; 
-      logOutputs('Sentences', userWord, sentences.join('\n---> '));
+      const firstEx = sentences.length > 0 ? '---> '+ sentences[0] : sentences[0];
+      if (firstEx) {
+          sentences[0] = firstEx;
+          const msg = sentences.join('\n---> ');
+          logOutputs('Examples', userWord, msg);
+      }
+      else {
+        logErrors(`Examples for word '${userWord}' is not found.`);
+      }
     } catch(err) {
       logErrors(err);
     }
