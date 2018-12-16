@@ -1,7 +1,7 @@
 const program = require('commander');
 require('dotenv').config();
-const { getWordDefinition } = require('./modules/dictionary/dictionaryController');
-const { logOutputs, logErrors } = require('./helper/utils');
+const { getWordDefinition, getFullWordInfo } = require('./modules/dictionary/dictionaryController');
+const { logOutputs, logErrors, logFullWordInfo } = require('./helper/utils');
 
 program
   .version('1.0.0')
@@ -67,8 +67,13 @@ program
   .command('getFullDic <word>')
   .alias('dic')
   .description('Get Word\'s full description from Oxford dictionary.')
-  .action((userWord) => {
-    console.log(colors.info(userWord));
+  .action(async (userWord) => {
+    try {
+      const full = await getFullWordInfo(userWord);
+      logFullWordInfo(full, userWord);
+    } catch(err) {
+      logErrors(err);
+    }
   });
 
 program

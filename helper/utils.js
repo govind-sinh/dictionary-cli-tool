@@ -30,8 +30,34 @@ const callApi = (apiData) => {
 }
 
 const logOutputs = (isFor, word, info) => {
-    console.log(colors.data(`Your ${isFor} for ${word} are as follows:`));
+    console.log(colors.data(`Your ${isFor} for word `+ colors.info(`'${word}'`) +` are as follows:`));
     console.log(colors.verbose(info));
+}
+
+const logFullWordInfo = (full, word) => {
+    const { definitions, synonyms, antonyms, sentences } = full;
+    if(definitions && definitions.length === 0){
+      return  console.log(colors.warn(`Oops! No information for this word`),colors.verbose(word));
+    }
+    for(let index = 0; index < definitions.length; index += 1) {
+        console.log(colors.green(`Definition ${index+1}>`),colors.verbose(definitions[index]));
+    }
+    if (synonyms) {
+        const msg = synonyms.length > 0 ? colors.info(synonyms.join(', ')) : colors.warn('Not available.');
+        console.log(colors.america(`Synonyms > `), msg );
+    }
+    if (antonyms) {
+        const msg = antonyms.length > 0 ? colors.blue(antonyms.join(', ')) : colors.warn('Not available.');
+        console.log(colors.rainbow(`Antonyms > `), msg);
+    }
+    if (sentences) {
+        sentences[0] = '---> '+ sentences[0];
+        const msg = sentences.length > 0 ? colors.cyan(sentences.join('\n---> ')) : colors.warn('Not available.');        
+        console.log(colors.rainbow(''.padStart(20,'-')));
+        console.log(colors.magenta(`Examples`.padStart(15,' ')));
+        console.log(colors.rainbow(''.padStart(20,'-')));
+        console.log(msg);
+    }
 }
 
 const logErrors = (err) => {
@@ -65,7 +91,8 @@ module.exports = {
     callApi,
     logOutputs,
     logErrors,
-    getSingleArray
+    getSingleArray,
+    logFullWordInfo
 };
 
 
